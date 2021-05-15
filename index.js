@@ -73,10 +73,6 @@ async function sendGoogleHomeAlert(ip, text) {
 	while (true) {
 		try {
 			let alerts = await fetchAlerts(); 
-		let alerts = await fetchAlerts(); 
-			let alerts = await fetchAlerts(); 
-		let alerts = await fetchAlerts(); 
-			let alerts = await fetchAlerts(); 
 			if (alerts.length == 0) {
 				console.log(new Date(), 'No alerts 😀');
 			} else {
