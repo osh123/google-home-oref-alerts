@@ -1,0 +1,8 @@
+{
+  "name": "google-home-oref-alerts",
+  "version": "1.0.0",
+  "engines": {"node": "^12"},
+  "dependencies": {
+    "google-home-push": "^1.2.0"
+  }
+}
