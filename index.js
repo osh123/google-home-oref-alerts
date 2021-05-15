@@ -24,32 +24,35 @@ async function fetchAlerts() {
 				'Referer': 'https://www.oref.org.il/',
 				'X-Requested-With': 'XMLHttpRequest'
 			}
-		  }
-		  
-		  const req = https.request(options, res => {		  
+		};
+
+		const req = https.request(options, res => {		  
 			const body = []
 			res.on('data', (chunk) => body.push(chunk))
 			res.on('end', () => {
-			  const resString = Buffer.concat(body).toString()
-			  let jsonData = null;
-			  try {
+				const resString = Buffer.concat(body).toString()
+				let jsonData = null;
+				try {
 				jsonData = JSON.parse(resString);
-			  } catch {}
-			  if (jsonData != null && 'data' in jsonData) {
+				} catch {}
+				if (jsonData != null && 'data' in jsonData) {
 				resolve(jsonData['data']);
 				return;
-			  }
-			  resolve([]);
-			})
-		  })
-		  
-		  req.on('error', error => {
+				}
+				resolve([]);
+			});
+		})
+
+		req.on('error', error => {
 			reject(error)
-		  })
-		  
-		  req.end()	  
+		});
+
+		try {
+			req.end();  
+		} catch (e) {
+			reject(e);
+		}
 	});
-	
 }
 
 async function sleep(ms) {
@@ -68,19 +71,27 @@ async function sendGoogleHomeAlert(ip, text) {
 
 (async() => {
 	while (true) {
+		try {
+			let alerts = await fetchAlerts(); 
 		let alerts = await fetchAlerts(); 
-		if (alerts.length == 0) {
-			console.log(new Date(), 'No alerts 😀');
-		} else {
-			console.log(new Date(), 'Found alerts!', alerts);
-			let relevantAlert = alerts.find(zone => ALERT_ZONES.indexOf(zone) !== -1);
-			if (relevantAlert != undefined) {
-				console.log(new Date(), "Found alert", relevantAlert, "notifying Google Homes...");
-				for (let googleHomeIp of GOOGLE_HOMES_IPS) {
-					sendGoogleHomeAlert(googleHomeIp, "ALERT! Please go into the safe zone!"); //No await here since we want to alert the next Google Home.
+			let alerts = await fetchAlerts(); 
+		let alerts = await fetchAlerts(); 
+			let alerts = await fetchAlerts(); 
+			if (alerts.length == 0) {
+				console.log(new Date(), 'No alerts 😀');
+			} else {
+				console.log(new Date(), 'Found alerts!', alerts);
+				let relevantAlert = alerts.find(zone => ALERT_ZONES.indexOf(zone) !== -1);
+				if (relevantAlert != undefined) {
+					console.log(new Date(), "Found alert", relevantAlert, "notifying Google Homes...");
+					for (let googleHomeIp of GOOGLE_HOMES_IPS) {
+						sendGoogleHomeAlert(googleHomeIp, "ALERT! Please go into the safe zone!"); //No await here since we want to alert the next Google Home.
+					}
+					await sleep(5000);
 				}
-				await sleep(5000);
 			}
+		} catch (e) {
+			console.error(new Date(), e);
 		}
 		await sleep(1000);
 	}
