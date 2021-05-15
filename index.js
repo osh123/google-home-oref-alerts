@@ -10,7 +10,7 @@ const ALERT_ZONES = [
 const GOOGLE_HOMES_IPS = [
 	//Set Google Homes IPs here
 	//example:
-	//'192.168.0.87
+	//'192.168.0.87'
 ];
 
 async function fetchAlerts() {
