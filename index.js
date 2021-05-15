@@ -33,11 +33,11 @@ async function fetchAlerts() {
 				const resString = Buffer.concat(body).toString()
 				let jsonData = null;
 				try {
-				jsonData = JSON.parse(resString);
+					jsonData = JSON.parse(resString);
 				} catch {}
 				if (jsonData != null && 'data' in jsonData) {
-				resolve(jsonData['data']);
-				return;
+					resolve(jsonData['data']);
+					return;
 				}
 				resolve([]);
 			});
