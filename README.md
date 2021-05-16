@@ -15,7 +15,7 @@ const ALERT_ZONES = [
 ```javascript
 const GOOGLE_HOMES_IPS = [
 	'192.168.0.87',
-  '192.168.0.94'
+	'192.168.0.94'
 ];
 ```
 ## General Information
