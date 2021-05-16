@@ -11,7 +11,7 @@ const ALERT_ZONES = [
 	'חולון'
 ];
 ```
-3. Get the Google Home IP adresses and update them in GOOGLE_HOME_IPS constant:
+3. Get the Google Home IP adresses and update them in `GOOGLE_HOME_IPS` constant:
 ```javascript
 const GOOGLE_HOMES_IPS = [
 	'192.168.0.87',
